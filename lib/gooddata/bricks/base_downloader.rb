@@ -35,7 +35,8 @@ module GoodData
 
         s3 = Aws::S3::Resource.new(
           :access_key_id => @params['aws_access_key_id'],
-          :secret_access_key => @params['aws_secret_access_key']
+          :secret_access_key => @params['aws_secret_access_key'],
+          :force_path_style => true
         )
 
         bucket = s3.bucket(bucket_name)

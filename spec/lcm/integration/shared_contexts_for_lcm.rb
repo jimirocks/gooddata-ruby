@@ -133,22 +133,11 @@ shared_context 'lcm bricks' do |opts = {}|
       title: "Client With Conflicting LDM Changes #{@suffix}"
     }
 
-    s3_endpoint = S3Helper.S3_ENDPOINT
     workspace_csv = LcmHelper.create_workspace_csv(
       @workspaces,
       Support::CUSTOM_CLIENT_ID_COLUMN
     )
-    s3 = Aws::S3::Resource.new(access_key_id: 'foo',
-                               secret_access_key: 'foo',
-                               endpoint: s3_endpoint,
-                               region: 'us-west-2',
-                               force_path_style: true)
-
-    bucket_name = 'testbucket'
-    bucket = s3.bucket(bucket_name)
-    bucket = s3.create_bucket(bucket: bucket_name) unless bucket.exists?
-    obj = bucket.object(@workspace_table_name)
-    obj.upload_file(Pathname.new(workspace_csv))
+    S3Helper.upload_file(Pathname.new(workspace_csv), @workspace_table_name)
 
     @data_product_id = "DATA_PRODUCT_#{@suffix}"
 

@@ -1966,7 +1966,8 @@ module GoodData
         secret_access_key: secret_key,
         max_retries: 15,
         http_read_timeout: 120,
-        http_open_timeout: 120
+        http_open_timeout: 120,
+        force_path_style: true
       }
 
       server_side_encryption = options['email_server_side_encryption'] || false
