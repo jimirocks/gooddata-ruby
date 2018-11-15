@@ -133,7 +133,7 @@ shared_context 'lcm bricks' do |opts = {}|
       title: "Client With Conflicting LDM Changes #{@suffix}"
     }
 
-    s3_endpoint = 'http://localstack:4572'
+    s3_endpoint = S3Helper.S3_ENDPOINT
     workspace_csv = LcmHelper.create_workspace_csv(
       @workspaces,
       Support::CUSTOM_CLIENT_ID_COLUMN

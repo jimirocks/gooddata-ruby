@@ -115,6 +115,11 @@ namespace :localstack do
   task :start do
     system('docker run -it --rm  -e "SERVICES=s3:4572" -p 4572:4572 -p 8080:8080 localstack/localstack:0.8.1')
   end
+
+  desc 'Run localstack on background'
+  task :start_bg do
+    system('docker run -d --rm  -e "SERVICES=s3:4572" -p 4572:4572 -p 8080:8080 localstack/localstack:0.8.1')
+  end
 end
 
 namespace :docker do
