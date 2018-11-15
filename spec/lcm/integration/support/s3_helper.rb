@@ -9,7 +9,7 @@ module Support
       def upload_file(file, object_name)
         s3 = Aws::S3::Resource.new(access_key_id: 'foo',
                                    secret_access_key: 'foo',
-                                   endpoint: S3_ENDPOINT,
+                                   endpoint: ENV['S3_ENDPOINT'] || S3_ENDPOINT,
                                    region: 'us-west-2',
                                    force_path_style: true)
 

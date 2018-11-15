@@ -38,13 +38,16 @@ jobs:
   - &lcm-integration-tests
     stage: integration
     name: lcm integration tests
-    before_script: &gd-certificates |
-      sudo cp data/*.crt /usr/local/share/ca-certificates/
-      sudo update-ca-certificates
+    before_script:
+      - &gd-certificates |
+        sudo cp data/*.crt /usr/local/share/ca-certificates/
+        sudo update-ca-certificates
+      - bundle exec rake -f lcm.rake localstack:start_bg
     script: bundle exec rake -f lcm.rake test:integration
     rvm:
     - jruby-9.1.5
     - jruby-9.1.14
+    env: S3_ENDPOINT="http://localhost:4572"
   - &sdk-integration-tests
     stage: integration
     name: sdk integration tests
