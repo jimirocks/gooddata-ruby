@@ -18,18 +18,18 @@ RUN yum install -y curl which patch make git \
 # Switch to directory with sources
 WORKDIR /src
 
-RUN groupadd -g 1003 updater && \
-    useradd -r -u 1003 -g updater updater && \
-    mkhomedir_helper updater && \
-    chown updater: /home && \
-    chown updater: /src
-USER 1003
+RUN groupadd -g 48 apache && \
+    useradd -r -u 48 -g apache apache && \
+    mkhomedir_helper apache && \
+    chown apache: /home && \
+    chown apache: /src
+USER 48
 
 RUN gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 RUN curl -sSL https://get.rvm.io | bash -s stable
 
 # login shell is required by rvm
-RUN /bin/bash -l -c ". /home/updater/.rvm/scripts/rvm && rvm install jruby-9.2.5.0 && gem update --system \
+RUN /bin/bash -l -c ". /home/apache/.rvm/scripts/rvm && rvm install jruby-9.2.5.0 && gem update --system \
     && gem install bundler rake"
 
 ENV GOODDATA_RUBY_COMMIT=$GIT_COMMIT
@@ -41,6 +41,6 @@ ADD ./VERSION .
 ADD ./Gemfile .
 ADD ./gooddata.gemspec .
 
-RUN /bin/bash -l -c ". /home/updater/.rvm/scripts/rvm && bundle install"
+RUN /bin/bash -l -c ". /home/apache/.rvm/scripts/rvm && bundle install"
 
 CMD [ "./bin/help.sh" ]
